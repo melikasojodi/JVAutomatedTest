@@ -35,3 +35,6 @@ class Login:
 
     def error_massage_blank_username(self):
         wait_until_element_is_enabled(self.driver, 'xpath', blank_username, 5)
+
+    def error_massage_blank_password(self):
+        wait_until_element_is_enabled(self.driver, 'xpath', blank_password, 5)
