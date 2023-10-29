@@ -77,6 +77,7 @@ class LoginTests(unittest.TestCase):
         login.login_button()
         login.enter_username(self.config["User"]["username"])
         login.next_step()
+        sleep(3)
         login.submit()
         login.error_massage_blank_password()
 
