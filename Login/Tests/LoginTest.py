@@ -5,7 +5,6 @@ from Login.Pages.MainPage import MainPage
 import unittest
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
 import json
 from pathlib import Path
 import os
@@ -30,65 +29,56 @@ class LoginTests(unittest.TestCase):
             cls.config = json.load(config_file)
 
     def test_valid_login(self):
-        self.driver.get(self.config["Links"]["base_url"] + "/Login?returnUrl=%2F")
+        self.driver.get(self.config["Links"]["base_url"])
         login = Login(driver=self.driver)
         main_page = MainPage(driver=self.driver)
-
-        login.enter_username(self.config["SecondTerm"]["username"])
-        sleep(3)
-        login.enter_password(self.config["SecondTerm"]["password"])
-        sleep(3)
-        login.click_on_login_button()
+        login.login_button()
+        login.enter_username(self.config["User"]["username"])
+        login.next_step()
+        login.enter_password(self.config["User"]["password"])
+        login.submit()
         sleep(3)
         main_page.check_main_page()
 
         sleep(3)
 
-    def test_invalid_login(self):
-        self.driver.get(self.config["Links"]["base_url"] + "/Login?returnUrl=%2F")
+    def test_invalid_username(self):
+        self.driver.get(self.config["Links"]["base_url"])
         login = Login(driver=self.driver)
-        sleep(5)
-        self.driver.refresh()
-        sleep(3)
+        login.login_button()
         login.enter_username("0000")
+        login.next_step()
+        login.error_massage_invalid_username()
+
+    def test_invalid_password(self):
+        self.driver.get(self.config["Links"]["base_url"])
+        login = Login(driver=self.driver)
+        login.login_button()
+        login.enter_username(self.config["User"]["username"])
+        login.next_step()
         login.enter_password("0000")
-        sleep(3)
-        login.click_on_login_button()
-        sleep(3)
-        login.massage_eror_invalid_login()
+        login.submit()
+        login.error_massage_invalid_password()
 
         # sleep(3)
 
     def test_login_blank_username(self):
-        self.driver.get(self.config["Links"]["base_url"] + "/Login?returnUrl=%2F")
+        self.driver.get(self.config["Links"]["base_url"])
         login = Login(driver=self.driver)
-        sleep(3)
-        login.enter_password("0020421729")
-        sleep(3)
-        login.click_on_login_button()
-        sleep(3)
-        login.massage_eror_blank_usernamepassword()
+        login.login_button()
+        login.next_step()
+        login.error_massage_blank_username()
 
         # sleep(3)
 
     def test_login_blank_password(self):
-        self.driver.get(self.config["Links"]["base_url"] + "/Login?returnUrl=%2F")
+        self.driver.get(self.config["Links"]["base_url"])
         login = Login(driver=self.driver)
-        sleep(3)
-        login.enter_username("7418700")
-        sleep(3)
-        login.click_on_login_button()
-        login.massage_eror_blank_usernamepassword()
-
-        # sleep(3)
-
-    def test_login_blank_username_password(self):
-        self.driver.get(self.config["Links"]["base_url"] + "/Login?returnUrl=%2F")
-        login = Login(driver=self.driver)
-        sleep(3)
-        login.click_on_login_button()
-        sleep(3)
-        login.massage_eror_blank_usernamepassword()
+        login.login_button()
+        login.enter_username(self.config["User"]["username"])
+        login.next_step()
+        login.submit()
+        login.error_massage_invalid_password()
 
         # sleep(3)
 

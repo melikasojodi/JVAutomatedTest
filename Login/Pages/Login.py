@@ -10,19 +10,28 @@ class Login:
     def __init__(self, driver):
         self.driver = driver
 
+    def login_button(self):
+        wait_until_element_is_enabled(self.driver, 'xpath', login_button, 5)
+
     def enter_username(self, username):
-        wait_until_element_is_enabled(self.driver, 'id', username_textbox_id, 5)
-        self.driver.find_element('id', username_textbox_id).send_keys(username)
+        wait_until_element_is_enabled(self.driver, 'name', username_textbox, 5)
+        self.driver.find_element('name', username_textbox).send_keys(username)
+
+    def next_step(self):
+        wait_until_element_is_enabled(self.driver, 'xpath', next_step, 5)
 
     def enter_password(self, password):
-        wait_until_element_is_enabled(self.driver, 'id', password_textbox_id, 5)
-        self.driver.find_element('id', password_textbox_id).send_keys(password)
+        wait_until_element_is_enabled(self.driver, 'name', password_textbox, 5)
+        self.driver.find_element('name', password_textbox).send_keys(password)
 
-    def click_on_login_button(self):
-        wait_until_element_is_enabled(self.driver, 'class name', login_button_classname, 5)
+    def submit(self):
+        wait_until_element_is_enabled(self.driver, 'xpath', submit, 5)
 
-    def massage_eror_invalid_login(self):
-        wait_until_element_is_enabled(self.driver, 'xpath', invalid_login_xpath, 5)
+    def error_massage_invalid_username(self):
+        wait_until_element_is_enabled(self.driver, 'xpath', invalid_username, 5)
 
-    def massage_eror_blank_usernamepassword(self):
-        wait_until_element_is_enabled(self.driver, 'xpath', blank_username_password, 5)
+    def error_massage_invalid_password(self):
+        wait_until_element_is_enabled(self.driver, 'xpath', invalid_password, 5)
+
+    def error_massage_blank_username(self):
+        wait_until_element_is_enabled(self.driver, 'xpath', blank_username, 5)
